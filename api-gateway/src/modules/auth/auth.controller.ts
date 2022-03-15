@@ -1,44 +1,76 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
   Inject,
   OnModuleInit,
   Post,
+  Req,
+  Res,
 } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 
+import { Request, Response } from 'express';
+
+import { SignUpRequest } from './dto/sign-up.dto';
+import { SignInRequest } from './dto/sign-in.dto';
+
 import { AuthKafkaMessages } from '../../shared/enums/auth-kafka-messages.enum';
 
-import { CreateUserRequest } from './dto/create-user.dto';
+import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController implements OnModuleInit {
   constructor(
-    @Inject('AUTH-SERVICE') private readonly authService: ClientKafka,
+    @Inject('AUTH-SERVICE') private readonly authClient: ClientKafka,
+    private readonly authService: AuthService,
   ) {}
 
   onModuleInit() {
     for (const topic in AuthKafkaMessages) {
-      this.authService.subscribeToResponseOf(AuthKafkaMessages[topic]);
+      this.authClient.subscribeToResponseOf(AuthKafkaMessages[topic]);
     }
   }
 
-  @Get()
-  async findAll() {
-    const users = await this.authService
-      .send(AuthKafkaMessages.FIND_ALL, JSON.stringify({}))
-      .toPromise();
+  @Post('signUp')
+  async signUp(
+    @Body() data: SignUpRequest,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const tokens = await this.authService.signUp(data);
 
-    return users;
+    res.cookie('refreshToken', tokens.refreshToken, {
+      httpOnly: true,
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+    });
+
+    return tokens.accessToken;
   }
 
-  @Post()
-  async create(@Body() data: CreateUserRequest) {
-    const user = await this.authService
-      .send(AuthKafkaMessages.CREATE_ONE, JSON.stringify(data))
-      .toPromise();
+  @Post('signIn')
+  async signIn(
+    @Body() data: SignInRequest,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const tokens = await this.authService.signIn(data);
 
-    return user;
+    res.cookie('refreshToken', tokens.refreshToken, {
+      httpOnly: true,
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+    });
+
+    return tokens.accessToken;
+  }
+
+  @Post('update')
+  async updateToken(@Req() req: Request) {
+    const { refreshToken } = req.cookies;
+
+    if (!refreshToken) throw new BadRequestException('No refreshToken');
+
+    const accessToken = await this.authService.updateToken(refreshToken);
+
+    return accessToken;
   }
 }

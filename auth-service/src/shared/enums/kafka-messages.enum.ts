@@ -1,5 +1,6 @@
 export enum KafkaMessages {
-  FIND_ONE = 'find-one-user',
-  FIND_ALL = 'find-all-users',
-  CREATE_ONE = 'create-one-user',
+  SIGN_IN = 'sign-in',
+  SIGN_UP = 'sign-up',
+  VERIFY_TOKEN = 'verify-token',
+  UPDATE_TOKEN = 'update-token',
 }
