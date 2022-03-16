@@ -65,11 +65,13 @@ export class AuthService {
     return tokens.accessToken;
   }
 
-  verifyAccessToken(accessToken: string): boolean {
+  async verifyAccessToken(accessToken: string): Promise<boolean> {
     try {
       const payload = this.jwtService.verify(accessToken, {
         secret: this.configService.get('JWT_ACCESS_SECRET'),
       });
+
+      const userExists = await this.userService.findOne(payload.id);
 
       return true;
     } catch {
