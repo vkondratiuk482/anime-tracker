@@ -1,11 +1,7 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { RpcException } from '@nestjs/microservices';
 
 import * as bcrypt from 'bcryptjs';
 import { Prisma, User } from '@prisma/client';
@@ -28,7 +24,7 @@ export class AuthService {
       email: data.email,
     });
 
-    if (candidate) throw new BadRequestException('User already exists');
+    if (candidate) throw new RpcException('User already exists');
 
     const hashedPassword = await bcrypt.hash(data.password, 7);
     const user = await this.userService.create({
@@ -52,11 +48,11 @@ export class AuthService {
   async verifyUser(email: string, password: string): Promise<User> {
     const user = await this.userService.findOneByEmail({ email });
 
-    if (!user) throw new NotFoundException('User does not exist');
+    if (!user) throw new RpcException('User does not exist');
 
     const passwordMatch = await bcrypt.compare(password, user.password);
 
-    if (!passwordMatch) throw new UnauthorizedException('Incorrect password');
+    if (!passwordMatch) throw new RpcException('Incorrect password');
 
     return user;
   }
