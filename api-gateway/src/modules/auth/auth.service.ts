@@ -5,7 +5,7 @@ import { SignUpRequest } from './dto/sign-up.dto';
 import { SignInRequest } from './dto/sign-in.dto';
 import { TokensResponse } from './dto/tokens.dto';
 
-import { AuthKafkaMessages } from '../../shared/enums/auth-kafka-messages.enum';
+import { AuthKafkaMessages } from './enums/auth-kafka-messages.enum';
 
 @Injectable()
 export class AuthService {

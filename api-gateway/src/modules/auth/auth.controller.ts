@@ -16,7 +16,7 @@ import { Request, Response } from 'express';
 import { SignUpRequest } from './dto/sign-up.dto';
 import { SignInRequest } from './dto/sign-in.dto';
 
-import { AuthKafkaMessages } from '../../shared/enums/auth-kafka-messages.enum';
+import { AuthKafkaMessages } from './enums/auth-kafka-messages.enum';
 
 import { AuthService } from './auth.service';
 

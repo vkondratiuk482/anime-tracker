@@ -4,7 +4,7 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
 import { Prisma } from '@prisma/client';
 
 import { SignInRequest } from './dto/sign-in.dto';
-import { KafkaMessages } from '../../shared/enums/kafka-messages.enum';
+import { KafkaMessages } from './enums/kafka-messages.enum';
 
 import { ParseMessagePipe } from '../../shared/pipes/parse-message.pipe';
 import { ExceptionFilter } from '../../shared/filters/exception.filter';
