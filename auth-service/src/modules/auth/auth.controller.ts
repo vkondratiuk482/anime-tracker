@@ -15,25 +15,21 @@ import { AuthService } from './auth.service';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @UseFilters(new ExceptionFilter())
   @MessagePattern(KafkaMessages.SIGN_UP)
   async signUp(@Payload(new ParseMessagePipe()) data: Prisma.UserCreateInput) {
     return this.authService.signUp(data);
   }
 
-  @UseFilters(new ExceptionFilter())
   @MessagePattern(KafkaMessages.SIGN_IN)
   async signIn(@Payload(new ParseMessagePipe()) data: SignInRequest) {
     return this.authService.signIn(data);
   }
 
-  @UseFilters(new ExceptionFilter())
   @MessagePattern(KafkaMessages.VERIFY_TOKEN)
   async verifyToken(@Payload(new ParseMessagePipe()) accessToken: string) {
     return this.authService.verifyAccessToken(accessToken);
   }
 
-  @UseFilters(new ExceptionFilter())
   @MessagePattern(KafkaMessages.UPDATE_TOKEN)
   async updateToken(@Payload(new ParseMessagePipe()) refreshToken: string) {
     return this.authService.updateAccessToken(refreshToken);
