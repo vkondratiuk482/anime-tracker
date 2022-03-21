@@ -80,6 +80,7 @@ export class AuthService {
   }
 
   private verifyRefreshToken(refreshToken: string): string {
+    // console.log(refreshToken[0]);
     const payload = this.jwtService.verify(refreshToken, {
       secret: this.configService.get('JWT_REFRESH_SECRET'),
     });

@@ -1,13 +1,13 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 
+import { firstValueFrom } from 'rxjs';
+
 import { KafkaTopics } from '../../../../../shared/constants/kafka-topics';
 
 import { SignUpRequest } from '../../../../../shared/dto/sign-up.dto';
 import { SignInRequest } from '../../../../../shared/dto/sign-in.dto';
 import { TokensResponse } from '../../../../../shared/dto/tokens.dto';
-
-import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class AuthService {
@@ -33,19 +33,13 @@ export class AuthService {
 
   async verifyToken(accessToken: string): Promise<boolean> {
     return firstValueFrom(
-      this.authService.send(
-        KafkaTopics.AUTH.VERIFY_TOKEN,
-        JSON.stringify(accessToken),
-      ),
+      this.authService.send(KafkaTopics.AUTH.VERIFY_TOKEN, accessToken),
     );
   }
 
   async updateToken(refreshToken: string): Promise<string> {
     const accessToken = await firstValueFrom(
-      this.authService.send(
-        KafkaTopics.AUTH.UPDATE_TOKEN,
-        JSON.stringify(refreshToken),
-      ),
+      this.authService.send(KafkaTopics.AUTH.UPDATE_TOKEN, refreshToken),
     );
 
     return accessToken;
