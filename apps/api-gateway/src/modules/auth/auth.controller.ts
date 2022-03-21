@@ -13,10 +13,10 @@ import { ClientKafka } from '@nestjs/microservices';
 
 import { Request, Response } from 'express';
 
-import { SignUpRequest } from './dto/sign-up.dto';
-import { SignInRequest } from './dto/sign-in.dto';
+import { KafkaTopics } from '../../../../../shared/constants/kafka-topics';
 
-import { AuthKafkaMessages } from './enums/auth-kafka-messages.enum';
+import { SignUpRequest } from '../../../../../shared/dto/sign-up.dto';
+import { SignInRequest } from '../../../../../shared/dto/sign-in.dto';
 
 import { AuthService } from './auth.service';
 
@@ -28,8 +28,8 @@ export class AuthController implements OnModuleInit {
   ) {}
 
   onModuleInit() {
-    for (const topic in AuthKafkaMessages) {
-      this.authClient.subscribeToResponseOf(AuthKafkaMessages[topic]);
+    for (const topic in KafkaTopics.AUTH) {
+      this.authClient.subscribeToResponseOf(KafkaTopics.AUTH[topic]);
     }
   }
 

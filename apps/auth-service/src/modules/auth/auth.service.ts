@@ -6,8 +6,8 @@ import { RpcException } from '@nestjs/microservices';
 import * as bcrypt from 'bcryptjs';
 import { Prisma, User } from '@prisma/client';
 
-import { Tokens } from './dto/tokens.dto';
-import { SignInRequest } from './dto/sign-in.dto';
+import { SignInRequest } from '../../../../../shared/dto/sign-in.dto';
+import { TokensResponse } from '../../../../../shared/dto/tokens.dto';
 
 import { UserService } from '../user/user.service';
 
@@ -19,7 +19,7 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  async signUp(data: Prisma.UserCreateInput): Promise<Tokens> {
+  async signUp(data: Prisma.UserCreateInput): Promise<TokensResponse> {
     const candidate = await this.userService.findOneByEmail({
       email: data.email,
     });
@@ -37,7 +37,7 @@ export class AuthService {
     return tokens;
   }
 
-  async signIn(data: SignInRequest): Promise<Tokens> {
+  async signIn(data: SignInRequest): Promise<TokensResponse> {
     const user = await this.verifyUser(data.email, data.password);
 
     const tokens = this.generateTokens(user.id);
@@ -87,7 +87,7 @@ export class AuthService {
     return payload;
   }
 
-  private generateTokens(id: string): Tokens {
+  private generateTokens(id: string): TokensResponse {
     const payload = { id };
 
     const accessToken = this.jwtService.sign(payload, {

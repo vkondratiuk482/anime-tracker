@@ -1,11 +1,12 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 
-import { SignUpRequest } from './dto/sign-up.dto';
-import { SignInRequest } from './dto/sign-in.dto';
-import { TokensResponse } from './dto/tokens.dto';
+import { KafkaTopics } from '../../../../../shared/constants/kafka-topics';
 
-import { AuthKafkaMessages } from './enums/auth-kafka-messages.enum';
+import { SignUpRequest } from '../../../../../shared/dto/sign-up.dto';
+import { SignInRequest } from '../../../../../shared/dto/sign-in.dto';
+import { TokensResponse } from '../../../../../shared/dto/tokens.dto';
+
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
@@ -16,7 +17,7 @@ export class AuthService {
 
   async signUp(data: SignUpRequest): Promise<TokensResponse> {
     const tokens = await firstValueFrom(
-      this.authService.send(AuthKafkaMessages.SIGN_UP, JSON.stringify(data)),
+      this.authService.send(KafkaTopics.AUTH.SIGN_UP, JSON.stringify(data)),
     );
 
     return tokens;
@@ -24,7 +25,7 @@ export class AuthService {
 
   async signIn(data: SignInRequest): Promise<TokensResponse> {
     const tokens = await firstValueFrom(
-      this.authService.send(AuthKafkaMessages.SIGN_IN, JSON.stringify(data)),
+      this.authService.send(KafkaTopics.AUTH.SIGN_IN, JSON.stringify(data)),
     );
 
     return tokens;
@@ -33,7 +34,7 @@ export class AuthService {
   async verifyToken(accessToken: string): Promise<boolean> {
     return firstValueFrom(
       this.authService.send(
-        AuthKafkaMessages.VERIFY_TOKEN,
+        KafkaTopics.AUTH.VERIFY_TOKEN,
         JSON.stringify(accessToken),
       ),
     );
@@ -42,7 +43,7 @@ export class AuthService {
   async updateToken(refreshToken: string): Promise<string> {
     const accessToken = await firstValueFrom(
       this.authService.send(
-        AuthKafkaMessages.UPDATE_TOKEN,
+        KafkaTopics.AUTH.UPDATE_TOKEN,
         JSON.stringify(refreshToken),
       ),
     );

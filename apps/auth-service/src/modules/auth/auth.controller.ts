@@ -1,13 +1,12 @@
-import { Controller, UseFilters } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 
 import { Prisma } from '@prisma/client';
 
-import { SignInRequest } from './dto/sign-in.dto';
-import { KafkaMessages } from './enums/kafka-messages.enum';
+import { SignInRequest } from '../../../../../shared/dto/sign-in.dto';
+import { KafkaTopics } from '../../../../../shared/constants/kafka-topics';
 
-import { ParseMessagePipe } from '../../shared/pipes/parse-message.pipe';
-import { ExceptionFilter } from '../../shared/filters/exception.filter';
+import { ParseMessagePipe } from '../../../../../shared/pipes/parse-message.pipe';
 
 import { AuthService } from './auth.service';
 
@@ -15,22 +14,22 @@ import { AuthService } from './auth.service';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @MessagePattern(KafkaMessages.SIGN_UP)
+  @MessagePattern(KafkaTopics.AUTH.SIGN_UP)
   async signUp(@Payload(new ParseMessagePipe()) data: Prisma.UserCreateInput) {
     return this.authService.signUp(data);
   }
 
-  @MessagePattern(KafkaMessages.SIGN_IN)
+  @MessagePattern(KafkaTopics.AUTH.SIGN_IN)
   async signIn(@Payload(new ParseMessagePipe()) data: SignInRequest) {
     return this.authService.signIn(data);
   }
 
-  @MessagePattern(KafkaMessages.VERIFY_TOKEN)
+  @MessagePattern(KafkaTopics.AUTH.VERIFY_TOKEN)
   async verifyToken(@Payload(new ParseMessagePipe()) accessToken: string) {
     return this.authService.verifyAccessToken(accessToken);
   }
 
-  @MessagePattern(KafkaMessages.UPDATE_TOKEN)
+  @MessagePattern(KafkaTopics.AUTH.UPDATE_TOKEN)
   async updateToken(@Payload(new ParseMessagePipe()) refreshToken: string) {
     return this.authService.updateAccessToken(refreshToken);
   }
