@@ -3,11 +3,11 @@ import { ClientKafka } from '@nestjs/microservices';
 
 import { firstValueFrom } from 'rxjs';
 
-import { KafkaTopics } from '../../../../../shared/constants/kafka-topics';
+import { KafkaTopics } from '@shared/constants/kafka-topics';
 
-import { SignUpRequest } from '../../../../../shared/dto/sign-up.dto';
-import { SignInRequest } from '../../../../../shared/dto/sign-in.dto';
-import { TokensResponse } from '../../../../../shared/dto/tokens.dto';
+import { SignUpRequest } from '@shared/dto/sign-up.dto';
+import { SignInRequest } from '@shared/dto/sign-in.dto';
+import { TokensResponse } from '@shared/dto/tokens.dto';
 
 @Injectable()
 export class AuthService {

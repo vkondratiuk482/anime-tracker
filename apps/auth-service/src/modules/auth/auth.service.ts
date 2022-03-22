@@ -6,8 +6,8 @@ import { RpcException } from '@nestjs/microservices';
 import * as bcrypt from 'bcryptjs';
 import { Prisma, User } from '@prisma/client';
 
-import { SignInRequest } from '../../../../../shared/dto/sign-in.dto';
-import { TokensResponse } from '../../../../../shared/dto/tokens.dto';
+import { SignInRequest } from '@shared/dto/sign-in.dto';
+import { TokensResponse } from '@shared/dto/tokens.dto';
 
 import { UserService } from '../user/user.service';
 

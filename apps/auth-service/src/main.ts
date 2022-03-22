@@ -1,8 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
+import { ExceptionFilter } from '@shared/filters/exception.filter';
+
 import { AppModule } from './app.module';
-import { ExceptionFilter } from '../../../shared/filters/exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(

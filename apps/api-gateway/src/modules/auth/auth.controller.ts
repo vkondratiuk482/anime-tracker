@@ -13,10 +13,10 @@ import { ClientKafka } from '@nestjs/microservices';
 
 import { Request, Response } from 'express';
 
-import { KafkaTopics } from '../../../../../shared/constants/kafka-topics';
+import { KafkaTopics } from '@shared/constants/kafka-topics';
 
-import { SignUpRequest } from '../../../../../shared/dto/sign-up.dto';
-import { SignInRequest } from '../../../../../shared/dto/sign-in.dto';
+import { SignUpRequest } from '@shared/dto/sign-up.dto';
+import { SignInRequest } from '@shared/dto/sign-in.dto';
 
 import { AuthService } from './auth.service';
 

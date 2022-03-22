@@ -3,10 +3,10 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
 
 import { Prisma } from '@prisma/client';
 
-import { SignInRequest } from '../../../../../shared/dto/sign-in.dto';
-import { KafkaTopics } from '../../../../../shared/constants/kafka-topics';
+import { SignInRequest } from '@shared/dto/sign-in.dto';
+import { KafkaTopics } from '@shared/constants/kafka-topics';
 
-import { ParseMessagePipe } from '../../../../../shared/pipes/parse-message.pipe';
+import { ParseMessagePipe } from '@shared/pipes/parse-message.pipe';
 
 import { AuthService } from './auth.service';
 
