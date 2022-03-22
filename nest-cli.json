@@ -25,6 +25,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/auth-service/tsconfig.app.json"
       }
+    },
+    "anime-service": {
+      "type": "application",
+      "root": "apps/anime-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/anime-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/anime-service/tsconfig.app.json"
+      }
     }
   }
 }
