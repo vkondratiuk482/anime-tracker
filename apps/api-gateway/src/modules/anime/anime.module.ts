@@ -9,11 +9,11 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         transport: Transport.KAFKA,
         options: {
           client: {
-            clientId: 'anime-service-service',
+            clientId: 'anime-service',
             brokers: ['localhost:9092'],
           },
           consumer: {
-            groupId: 'anime-service-consumer',
+            groupId: 'anime-consumer',
           },
         },
       },

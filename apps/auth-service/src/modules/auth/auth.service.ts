@@ -6,8 +6,8 @@ import { RpcException } from '@nestjs/microservices';
 import * as bcrypt from 'bcryptjs';
 import { Prisma, User } from '@prisma/client';
 
-import { SignInRequest } from '@shared/dto/sign-in.dto';
-import { TokensResponse } from '@shared/dto/tokens.dto';
+import { SignInRequest } from '@shared/dto/auth/sign-in.dto';
+import { TokensResponse } from '@shared/dto/auth/tokens.dto';
 
 import { UserService } from '../user/user.service';
 
@@ -80,7 +80,6 @@ export class AuthService {
   }
 
   private verifyRefreshToken(refreshToken: string): string {
-    // console.log(refreshToken[0]);
     const payload = this.jwtService.verify(refreshToken, {
       secret: this.configService.get('JWT_REFRESH_SECRET'),
     });
