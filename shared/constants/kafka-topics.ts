@@ -6,7 +6,7 @@ export const KafkaTopics = {
     UPDATE_TOKEN: 'update-token',
   },
   ANIME: {
-    GET_ANIMES_API: 'get-animes-api',
+    PARSE: 'parse-animes',
     FIND_ALL: 'find-all-animes',
     CREATE: 'create-anime',
     UPDATE: 'update-anime',

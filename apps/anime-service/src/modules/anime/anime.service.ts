@@ -9,9 +9,10 @@ import { firstValueFrom } from 'rxjs';
 import { CreateAnimeRequest } from '@shared/dto/anime/create-anime.dto';
 import { UpdateAnimeRequest } from '@shared/dto/anime/update-anime.dto';
 
-import { Anime } from './entities/anime.entity';
+import { Anime } from '@shared/entities/anime/anime.entity';
+import { JikanAnime } from '@shared/dto/anime/jikan-api.dto';
 
-import { mapAnimes } from './utils/map-animes-list';
+import { mapAnimesResponse } from './utils/map-animes-response';
 
 @Injectable()
 export class AnimeService {
@@ -21,10 +22,10 @@ export class AnimeService {
     private readonly httpService: HttpService,
   ) {}
 
-  async getAnimesByName(name: string) {
+  async parseAnimes(name: string): Promise<JikanAnime[]> {
     const response = await firstValueFrom(this.httpService.get(name));
 
-    const animes = mapAnimes(response);
+    const animes = mapAnimesResponse(response);
 
     return animes;
   }

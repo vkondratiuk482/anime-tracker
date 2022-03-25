@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { ApiLinks } from '@shared/constants/api-links';
 
-import { Anime } from './entities/anime.entity';
+import { Anime } from '@shared/entities/anime/anime.entity';
 
 import { AnimeController } from './anime.controller';
 

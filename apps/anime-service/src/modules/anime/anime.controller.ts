@@ -14,9 +14,9 @@ import { AnimeService } from './anime.service';
 export class AnimeController {
   constructor(private readonly animeService: AnimeService) {}
 
-  @MessagePattern(KafkaTopics.ANIME.GET_ANIMES_API)
-  async getAnimesByName(@Payload(new ParseMessagePipe()) name: string) {
-    return this.animeService.getAnimesByName(name);
+  @MessagePattern(KafkaTopics.ANIME.PARSE)
+  async parseAnime(@Payload(new ParseMessagePipe()) name: string) {
+    return this.animeService.parseAnimes(name);
   }
 
   @MessagePattern(KafkaTopics.ANIME.FIND_ALL)
