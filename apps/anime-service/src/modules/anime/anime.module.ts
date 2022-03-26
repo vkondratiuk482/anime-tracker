@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { ApiLinks } from '@shared/constants/api-links';
+import { CONSTANTS } from '@shared/constants';
 
 import { Anime } from '@shared/entities/anime/anime.entity';
 
@@ -13,7 +13,7 @@ import { AnimeService } from './anime.service';
 @Module({
   imports: [
     HttpModule.register({
-      baseURL: ApiLinks.getAllAnimesUrl,
+      baseURL: CONSTANTS.ENDPOINTS.GET_ALL_ANIMES,
       timeout: 5000,
     }),
     TypeOrmModule.forFeature([Anime]),

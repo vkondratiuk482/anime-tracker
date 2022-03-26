@@ -19,7 +19,7 @@ export class Anime {
   name: string;
 
   @Column()
-  picture: string; //base64 string
+  picture: string;
 
   @Column()
   review: string;

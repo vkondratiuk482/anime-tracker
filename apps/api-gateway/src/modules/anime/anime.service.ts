@@ -2,7 +2,8 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 
-import { KafkaTopics } from '@shared/constants/kafka-topics';
+import { CONSTANTS } from '@shared/constants';
+
 import { Anime } from '@shared/entities/anime/anime.entity';
 
 import { CreateAnimeRequest } from '@shared/dto/anime/create-anime.dto';
@@ -17,7 +18,7 @@ export class AnimeService {
 
   async parseAnimes(name: string): Promise<JikanAnime[]> {
     const animes = await firstValueFrom(
-      this.animeService.send(KafkaTopics.ANIME.PARSE, name),
+      this.animeService.send(CONSTANTS.KAFKA_TOPICS.ANIME.PARSE, name),
     );
 
     return animes;
@@ -25,7 +26,7 @@ export class AnimeService {
 
   async findAllByUser(userId: string): Promise<Anime[]> {
     const animes = await firstValueFrom(
-      this.animeService.send(KafkaTopics.ANIME.FIND_ALL, userId),
+      this.animeService.send(CONSTANTS.KAFKA_TOPICS.ANIME.FIND_ALL, userId),
     );
 
     return animes;
@@ -33,7 +34,10 @@ export class AnimeService {
 
   async create(data: CreateAnimeRequest): Promise<Anime> {
     const anime = await firstValueFrom(
-      this.animeService.send(KafkaTopics.ANIME.CREATE, JSON.stringify(data)),
+      this.animeService.send(
+        CONSTANTS.KAFKA_TOPICS.ANIME.CREATE,
+        JSON.stringify(data),
+      ),
     );
 
     return anime;
@@ -41,7 +45,10 @@ export class AnimeService {
 
   async update(data: UpdateAnimeRequest): Promise<Anime> {
     const anime = await firstValueFrom(
-      this.animeService.send(KafkaTopics.ANIME.UPDATE, JSON.stringify(data)),
+      this.animeService.send(
+        CONSTANTS.KAFKA_TOPICS.ANIME.UPDATE,
+        JSON.stringify(data),
+      ),
     );
 
     return anime;
@@ -49,7 +56,7 @@ export class AnimeService {
 
   async remove(id: string): Promise<Anime> {
     const anime = await firstValueFrom(
-      this.animeService.send(KafkaTopics.ANIME.REMOVE, id),
+      this.animeService.send(CONSTANTS.KAFKA_TOPICS.ANIME.REMOVE, id),
     );
 
     return anime;
