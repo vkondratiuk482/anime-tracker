@@ -1,10 +1,9 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 
-import { Prisma } from '@prisma/client';
-
-import { SignInRequest } from '@shared/dto/auth/sign-in.dto';
 import { KafkaTopics } from '@shared/constants/kafka-topics';
+import { SignUpRequest } from '@shared/dto/auth/sign-up.dto';
+import { SignInRequest } from '@shared/dto/auth/sign-in.dto';
 
 import { ParseMessagePipe } from '@shared/pipes/parse-message.pipe';
 
@@ -15,7 +14,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @MessagePattern(KafkaTopics.AUTH.SIGN_UP)
-  async signUp(@Payload(new ParseMessagePipe()) data: Prisma.UserCreateInput) {
+  async signUp(@Payload(new ParseMessagePipe()) data: SignUpRequest) {
     return this.authService.signUp(data);
   }
 

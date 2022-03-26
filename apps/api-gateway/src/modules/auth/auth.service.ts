@@ -31,7 +31,7 @@ export class AuthService {
     return tokens;
   }
 
-  async verifyToken(accessToken: string) {
+  async verifyToken(accessToken: string): Promise<string> {
     const id = await firstValueFrom(
       this.authService.send(KafkaTopics.AUTH.VERIFY_TOKEN, accessToken),
     );

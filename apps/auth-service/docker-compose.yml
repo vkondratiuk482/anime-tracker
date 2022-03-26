@@ -4,11 +4,7 @@ services:
     image: postgres:10.3
     restart: always
     environment:
-      - POSTGRES_USER=prisma
-      - POSTGRES_PASSWORD=pass123
-    volumes:
-      - postgres:/var/lib/postgresql/data
+      POSTGRES_USER: prisma
+      POSTGRES_PASSWORD: pass123
     ports:
       - '5432:5432'
-volumes:
-  postgres:

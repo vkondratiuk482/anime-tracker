@@ -17,11 +17,12 @@ import { User } from '../auth/decorators/user.decorator';
 import { JwtGuard } from '../auth/guards/jwt.guard';
 
 import { KafkaTopics } from '@shared/constants/kafka-topics';
+
 import { GetAnimeByNameRequest } from '@shared/dto/anime/get-anime-by-name.dto';
 import { CreateAnimeRequest } from '@shared/dto/anime/create-anime.dto';
+import { UpdateAnimeRequest } from '@shared/dto/anime/update-anime.dto';
 
 import { AnimeService } from './anime.service';
-import { UpdateAnimeRequest } from '@shared/dto/anime/update-anime.dto';
 
 @Controller('anime')
 export class AnimeController implements OnModuleInit {
