@@ -4,10 +4,12 @@ import { ConfigService } from '@nestjs/config';
 import { RpcException } from '@nestjs/microservices';
 
 import * as bcrypt from 'bcryptjs';
-import { Prisma, User } from '@prisma/client';
 
+import { SignUpRequest } from '@shared/dto/auth/sign-up.dto';
 import { SignInRequest } from '@shared/dto/auth/sign-in.dto';
 import { TokensResponse } from '@shared/dto/auth/tokens.dto';
+
+import { User } from '@shared/entities/auth/user.entity';
 
 import { UserService } from '../user/user.service';
 
@@ -19,10 +21,8 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  async signUp(data: Prisma.UserCreateInput): Promise<TokensResponse> {
-    const candidate = await this.userService.findOneByEmail({
-      email: data.email,
-    });
+  async signUp(data: SignUpRequest): Promise<TokensResponse> {
+    const candidate = await this.userService.findOneByEmail(data.email);
 
     if (candidate) throw new RpcException('User already exists');
 
@@ -46,7 +46,7 @@ export class AuthService {
   }
 
   async verifyUser(email: string, password: string): Promise<User> {
-    const user = await this.userService.findOneByEmail({ email });
+    const user = await this.userService.findOneByEmail(email);
 
     if (!user) throw new RpcException('User does not exist');
 
@@ -71,7 +71,7 @@ export class AuthService {
         secret: this.configService.get('JWT_ACCESS_SECRET'),
       });
 
-      const userExists = await this.userService.findOne({ id });
+      const userExists = await this.userService.findOne(id);
 
       return id;
     } catch (err) {
