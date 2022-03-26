@@ -1,6 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 
+import { AuthModule } from '../auth/auth.module';
+
+import { AnimeController } from './anime.controller';
+
+import { AnimeService } from './anime.service';
+
 @Module({
   imports: [
     ClientsModule.register([
@@ -9,15 +15,18 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         transport: Transport.KAFKA,
         options: {
           client: {
-            clientId: 'anime-service-service',
+            clientId: 'anime-service',
             brokers: ['localhost:9092'],
           },
           consumer: {
-            groupId: 'anime-service-consumer',
+            groupId: 'anime-consumer',
           },
         },
       },
     ]),
+    AuthModule,
   ],
+  controllers: [AnimeController],
+  providers: [AnimeService],
 })
 export class AnimeModule {}

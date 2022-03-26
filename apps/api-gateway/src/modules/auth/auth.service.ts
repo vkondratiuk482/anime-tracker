@@ -5,9 +5,9 @@ import { firstValueFrom } from 'rxjs';
 
 import { KafkaTopics } from '@shared/constants/kafka-topics';
 
-import { SignUpRequest } from '@shared/dto/sign-up.dto';
-import { SignInRequest } from '@shared/dto/sign-in.dto';
-import { TokensResponse } from '@shared/dto/tokens.dto';
+import { SignUpRequest } from '@shared/dto/auth/sign-up.dto';
+import { SignInRequest } from '@shared/dto/auth/sign-in.dto';
+import { TokensResponse } from '@shared/dto/auth/tokens.dto';
 
 @Injectable()
 export class AuthService {
@@ -31,10 +31,12 @@ export class AuthService {
     return tokens;
   }
 
-  async verifyToken(accessToken: string): Promise<boolean> {
-    return firstValueFrom(
+  async verifyToken(accessToken: string) {
+    const id = await firstValueFrom(
       this.authService.send(KafkaTopics.AUTH.VERIFY_TOKEN, accessToken),
     );
+
+    return id;
   }
 
   async updateToken(refreshToken: string): Promise<string> {
@@ -43,16 +45,5 @@ export class AuthService {
     );
 
     return accessToken;
-  }
-
-  async parseAuthorizationHeaders(authHeaders: string): Promise<string> {
-    const tokenType = authHeaders.split(' ')[0];
-    const token = authHeaders.split(' ')[1];
-
-    if (!token || tokenType !== 'Bearer') {
-      throw new UnauthorizedException('Incorrect auth headers');
-    }
-
-    return token;
   }
 }

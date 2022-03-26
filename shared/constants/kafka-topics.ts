@@ -5,4 +5,11 @@ export const KafkaTopics = {
     VERIFY_TOKEN: 'verify-token',
     UPDATE_TOKEN: 'update-token',
   },
+  ANIME: {
+    PARSE: 'parse-animes',
+    FIND_ALL: 'find-all-animes',
+    CREATE: 'create-anime',
+    UPDATE: 'update-anime',
+    REMOVE: 'remove-anime',
+  },
 };
