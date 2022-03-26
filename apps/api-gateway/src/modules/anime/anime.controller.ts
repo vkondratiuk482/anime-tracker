@@ -16,7 +16,7 @@ import { ClientKafka } from '@nestjs/microservices';
 import { User } from '../auth/decorators/user.decorator';
 import { JwtGuard } from '../auth/guards/jwt.guard';
 
-import { KafkaTopics } from '@shared/constants/kafka-topics';
+import { CONSTANTS } from '@shared/constants';
 
 import { GetAnimeByNameRequest } from '@shared/dto/anime/get-anime-by-name.dto';
 import { CreateAnimeRequest } from '@shared/dto/anime/create-anime.dto';
@@ -32,8 +32,10 @@ export class AnimeController implements OnModuleInit {
   ) {}
 
   onModuleInit() {
-    for (const topic in KafkaTopics.ANIME) {
-      this.animeClient.subscribeToResponseOf(KafkaTopics.ANIME[topic]);
+    for (const topic in CONSTANTS.KAFKA_TOPICS.ANIME) {
+      this.animeClient.subscribeToResponseOf(
+        CONSTANTS.KAFKA_TOPICS.ANIME[topic],
+      );
     }
   }
 

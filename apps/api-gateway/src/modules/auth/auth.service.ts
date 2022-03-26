@@ -3,7 +3,7 @@ import { ClientKafka } from '@nestjs/microservices';
 
 import { firstValueFrom } from 'rxjs';
 
-import { KafkaTopics } from '@shared/constants/kafka-topics';
+import { CONSTANTS } from '@shared/constants';
 
 import { SignUpRequest } from '@shared/dto/auth/sign-up.dto';
 import { SignInRequest } from '@shared/dto/auth/sign-in.dto';
@@ -17,7 +17,10 @@ export class AuthService {
 
   async signUp(data: SignUpRequest): Promise<TokensResponse> {
     const tokens = await firstValueFrom(
-      this.authService.send(KafkaTopics.AUTH.SIGN_UP, JSON.stringify(data)),
+      this.authService.send(
+        CONSTANTS.KAFKA_TOPICS.AUTH.SIGN_UP,
+        JSON.stringify(data),
+      ),
     );
 
     return tokens;
@@ -25,7 +28,10 @@ export class AuthService {
 
   async signIn(data: SignInRequest): Promise<TokensResponse> {
     const tokens = await firstValueFrom(
-      this.authService.send(KafkaTopics.AUTH.SIGN_IN, JSON.stringify(data)),
+      this.authService.send(
+        CONSTANTS.KAFKA_TOPICS.AUTH.SIGN_IN,
+        JSON.stringify(data),
+      ),
     );
 
     return tokens;
@@ -33,7 +39,10 @@ export class AuthService {
 
   async verifyToken(accessToken: string): Promise<string> {
     const id = await firstValueFrom(
-      this.authService.send(KafkaTopics.AUTH.VERIFY_TOKEN, accessToken),
+      this.authService.send(
+        CONSTANTS.KAFKA_TOPICS.AUTH.VERIFY_TOKEN,
+        accessToken,
+      ),
     );
 
     return id;
@@ -41,7 +50,10 @@ export class AuthService {
 
   async updateToken(refreshToken: string): Promise<string> {
     const accessToken = await firstValueFrom(
-      this.authService.send(KafkaTopics.AUTH.UPDATE_TOKEN, refreshToken),
+      this.authService.send(
+        CONSTANTS.KAFKA_TOPICS.AUTH.UPDATE_TOKEN,
+        refreshToken,
+      ),
     );
 
     return accessToken;
