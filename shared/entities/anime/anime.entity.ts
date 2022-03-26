@@ -30,6 +30,6 @@ export class Anime {
   @CreateDateColumn({ type: 'timestamptz', name: 'start_date' })
   startDate: Date;
 
-  @Column({ type: 'timestamptz', name: 'end_date' })
+  @Column({ type: 'timestamptz', name: 'end_date', nullable: true })
   endDate: Date;
 }

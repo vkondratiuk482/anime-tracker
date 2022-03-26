@@ -65,17 +65,17 @@ export class AuthService {
     return tokens.accessToken;
   }
 
-  async verifyAccessToken(accessToken: string): Promise<boolean> {
+  async verifyAccessToken(accessToken: string) {
     try {
-      const payload = this.jwtService.verify(accessToken, {
+      const { id } = this.jwtService.verify(accessToken, {
         secret: this.configService.get('JWT_ACCESS_SECRET'),
       });
 
-      const userExists = await this.userService.findOne(payload.id);
+      const userExists = await this.userService.findOne({ id });
 
-      return true;
-    } catch {
-      return false;
+      return id;
+    } catch (err) {
+      throw new RpcException(err.message);
     }
   }
 

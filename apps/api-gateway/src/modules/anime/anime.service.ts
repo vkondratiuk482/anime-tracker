@@ -7,6 +7,7 @@ import { Anime } from '@shared/entities/anime/anime.entity';
 
 import { CreateAnimeRequest } from '@shared/dto/anime/create-anime.dto';
 import { UpdateAnimeRequest } from '@shared/dto/anime/update-anime.dto';
+import { JikanAnime } from '@shared/dto/anime/jikan-api.dto';
 
 @Injectable()
 export class AnimeService {
@@ -14,7 +15,7 @@ export class AnimeService {
     @Inject('ANIME-SERVICE') private readonly animeService: ClientKafka,
   ) {}
 
-  async parseAnimes(name: string) {
+  async parseAnimes(name: string): Promise<JikanAnime[]> {
     const animes = await firstValueFrom(
       this.animeService.send(KafkaTopics.ANIME.PARSE, name),
     );

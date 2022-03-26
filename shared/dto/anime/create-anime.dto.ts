@@ -1,22 +1,16 @@
-import {
-  IsBase64,
-  IsDate,
-  IsEnum,
-  IsOptional,
-  IsString,
-  IsUUID,
-} from 'class-validator';
+import { IsEnum, IsOptional, IsString, IsUUID } from 'class-validator';
 
 import { Status } from '../../enums/status.enum';
 
 export class CreateAnimeRequest {
   @IsUUID()
+  @IsOptional()
   readonly userId: string;
 
   @IsString()
   readonly name: string;
 
-  @IsBase64()
+  @IsString()
   readonly picture: string;
 
   @IsString()
@@ -24,11 +18,4 @@ export class CreateAnimeRequest {
 
   @IsEnum(Status)
   readonly status: Status;
-
-  @IsDate()
-  readonly startDate: string;
-
-  @IsOptional()
-  @IsDate()
-  readonly endDate: string;
 }

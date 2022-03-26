@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 
+import { AuthModule } from '../auth/auth.module';
+
 import { AnimeController } from './anime.controller';
 
 import { AnimeService } from './anime.service';
@@ -22,6 +24,7 @@ import { AnimeService } from './anime.service';
         },
       },
     ]),
+    AuthModule,
   ],
   controllers: [AnimeController],
   providers: [AnimeService],
