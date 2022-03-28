@@ -9,7 +9,6 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
-    "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
@@ -18,7 +17,11 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./apps/api-gateway/test/jest-e2e.json"
+    "test:e2e": "jest --config ./apps/api-gateway/test/jest-e2e.json",
+    "api-gateway": "nest start -w",
+    "auth-service": "nest start auth-service -w",
+    "anime-service": "nest start anime-service -w",
+    "start": "concurrently \"npm run api-gateway\" \"npm run auth-service\" \"npm run anime-service\""
   },
   "dependencies": {
     "@nestjs/axios": "^0.0.7",
@@ -36,6 +39,7 @@
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
+    "concurrently": "^7.0.0",
     "cookie-parser": "^1.4.6",
     "kafkajs": "^1.16.0",
     "pg": "^8.7.3",
