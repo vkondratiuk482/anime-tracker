@@ -1,4 +1,4 @@
-class Index {
+class Constants {
   readonly ENDPOINTS = {
     GET_ALL_ANIMES:
       'https://api.jikan.moe/v4/anime?&order_by=title&sort=asc&limit=10&q=',
@@ -21,4 +21,4 @@ class Index {
   };
 }
 
-export const CONSTANTS = new Index();
+export const CONSTANTS = new Constants();
