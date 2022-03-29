@@ -39,8 +39,8 @@ export class AnimeController implements OnModuleInit {
     }
   }
 
-  @UseGuards(JwtGuard)
   @Get('api')
+  @UseGuards(JwtGuard)
   async parseAnimes(@Query() { name }: GetAnimeByNameRequest) {
     return this.animeService.parseAnimes(name);
   }
@@ -55,14 +55,14 @@ export class AnimeController implements OnModuleInit {
     return this.animeService.create({ ...data, userId });
   }
 
-  @UseGuards(JwtGuard)
   @Patch()
+  @UseGuards(JwtGuard)
   async update(@Body() data: UpdateAnimeRequest) {
     return this.animeService.update(data);
   }
 
-  @UseGuards(JwtGuard)
   @Delete(':id')
+  @UseGuards(JwtGuard)
   async remove(@Param('id') id: string) {
     return this.animeService.remove(id);
   }

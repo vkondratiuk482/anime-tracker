@@ -3,6 +3,8 @@ import { ValidationPipe } from '@nestjs/common';
 
 import * as cookieParser from 'cookie-parser';
 
+import { HttpExceptionFilter } from '@shared/filters/http-exception.filter';
+
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -16,6 +18,8 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   await app.listen(3000);
 }
