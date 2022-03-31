@@ -1,6 +1,6 @@
-## Description
-
-An application to track watched animes, mark ones for future view and write down your feelings and emotions about them
+<p align="center"><img width="20%" src="https://i.pinimg.com/564x/95/0a/7a/950a7a0d9b4f2a3694ca5d41b89df86b.jpg"></p>
+<h1 align="center">Anime tracker</h1>
+<h4 align="center">An application to track watched animes, mark ones for future view and write down your feelings and emotions about them</h4>
 
 ## Features
 
