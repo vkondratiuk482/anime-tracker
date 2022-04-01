@@ -26,16 +26,16 @@ export class AnimeController {
 
   @MessagePattern(CONSTANTS.KAFKA_TOPICS.ANIME.CREATE)
   async create(@Payload(new ParseMessagePipe()) data: CreateAnimeRequest) {
-    return this.animeService.create(data);
+    return JSON.stringify(await this.animeService.create(data));
   }
 
   @MessagePattern(CONSTANTS.KAFKA_TOPICS.ANIME.UPDATE)
   async update(@Payload(new ParseMessagePipe()) data: UpdateAnimeRequest) {
-    return this.animeService.update(data.id, data);
+    return JSON.stringify(await this.animeService.update(data.id, data));
   }
 
   @MessagePattern(CONSTANTS.KAFKA_TOPICS.ANIME.REMOVE)
   async remove(@Payload(new ParseMessagePipe()) id: string) {
-    return this.animeService.remove(id);
+    return JSON.stringify(await this.animeService.remove(id));
   }
 }
