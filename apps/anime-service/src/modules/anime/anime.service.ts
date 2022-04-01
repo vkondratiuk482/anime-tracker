@@ -14,7 +14,7 @@ import { JikanAnime } from '@shared/dto/anime/jikan-api.dto';
 
 import { mapAnimesResponse } from './utils/map-animes-response';
 
-import { DatesService } from './dates';
+import { DatesService } from '../dates/dates.service';
 
 @Injectable()
 export class AnimeService {
