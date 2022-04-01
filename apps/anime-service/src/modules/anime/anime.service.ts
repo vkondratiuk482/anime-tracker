@@ -14,6 +14,8 @@ import { JikanAnime } from '@shared/dto/anime/jikan-api.dto';
 
 import { mapAnimesResponse } from './utils/map-animes-response';
 
+import { DatesService } from '../dates/dates.service';
+
 @Injectable()
 export class AnimeService {
   constructor(
@@ -31,11 +33,7 @@ export class AnimeService {
   }
 
   async findAllByUser(userId: string): Promise<Anime[]> {
-    const animes = await this.animeRepository.find({
-      where: {
-        userId,
-      },
-    });
+    const animes = await this.animeRepository.find({ where: { userId } });
 
     return animes;
   }
@@ -43,15 +41,27 @@ export class AnimeService {
   async create(data: CreateAnimeRequest): Promise<Anime> {
     const anime = await this.animeRepository.create(data);
 
-    return this.animeRepository.save(anime);
+    const dates = DatesService.getDatesByStatus(
+      anime.status,
+      anime.startDate,
+      anime.endDate,
+    );
+
+    return this.animeRepository.save({ ...anime, ...dates });
   }
 
-  async update(id: string, data: UpdateAnimeRequest): Promise<Anime> {
-    const anime = await this.animeRepository.preload({ id, ...data });
+  async update(data: UpdateAnimeRequest): Promise<Anime> {
+    const anime = await this.animeRepository.preload(data);
 
     if (!anime) throw new RpcException('Anime does not exist');
 
-    return this.animeRepository.save(anime);
+    const dates = DatesService.getDatesByStatus(
+      anime.status,
+      anime.startDate,
+      anime.endDate,
+    );
+
+    return this.animeRepository.save({ ...data, ...dates });
   }
 
   async remove(id: string): Promise<Anime> {

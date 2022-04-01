@@ -31,7 +31,7 @@ export class AnimeController {
 
   @MessagePattern(CONSTANTS.KAFKA_TOPICS.ANIME.UPDATE)
   async update(@Payload(new ParseMessagePipe()) data: UpdateAnimeRequest) {
-    return JSON.stringify(await this.animeService.update(data.id, data));
+    return JSON.stringify(await this.animeService.update(data));
   }
 
   @MessagePattern(CONSTANTS.KAFKA_TOPICS.ANIME.REMOVE)
