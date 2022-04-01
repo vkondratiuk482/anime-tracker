@@ -1,9 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 import { Status } from '@shared/enums/status.enum';
 
@@ -27,7 +22,7 @@ export class Anime {
   @Column({ type: 'enum', enum: Status, default: Status.PRESENT })
   status: Status;
 
-  @CreateDateColumn({ type: 'timestamptz', name: 'start_date' })
+  @Column({ type: 'timestamptz', name: 'start_date', nullable: true })
   startDate: Date;
 
   @Column({ type: 'timestamptz', name: 'end_date', nullable: true })
