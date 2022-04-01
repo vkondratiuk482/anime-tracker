@@ -33,11 +33,7 @@ export class AnimeService {
   }
 
   async findAllByUser(userId: string): Promise<Anime[]> {
-    const animes = await this.animeRepository.find({
-      where: {
-        userId,
-      },
-    });
+    const animes = await this.animeRepository.find({ where: { userId } });
 
     return animes;
   }
@@ -54,8 +50,8 @@ export class AnimeService {
     return this.animeRepository.save({ ...anime, ...dates });
   }
 
-  async update(id: string, data: UpdateAnimeRequest): Promise<Anime> {
-    const anime = await this.animeRepository.preload({ id, ...data });
+  async update(data: UpdateAnimeRequest): Promise<Anime> {
+    const anime = await this.animeRepository.preload(data);
 
     if (!anime) throw new RpcException('Anime does not exist');
 
