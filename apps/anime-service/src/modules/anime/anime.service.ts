@@ -6,8 +6,6 @@ import { RpcException } from '@nestjs/microservices';
 import { Repository } from 'typeorm';
 import { firstValueFrom } from 'rxjs';
 
-import { Status } from '@shared/enums/status.enum';
-
 import { CreateAnimeRequest } from '@shared/dto/anime/create-anime.dto';
 import { UpdateAnimeRequest } from '@shared/dto/anime/update-anime.dto';
 
@@ -15,6 +13,8 @@ import { Anime } from '@shared/entities/anime/anime.entity';
 import { JikanAnime } from '@shared/dto/anime/jikan-api.dto';
 
 import { mapAnimesResponse } from './utils/map-animes-response';
+
+import { DatesService } from './dates';
 
 @Injectable()
 export class AnimeService {
@@ -41,7 +41,7 @@ export class AnimeService {
   async create(data: CreateAnimeRequest): Promise<Anime> {
     const anime = await this.animeRepository.create(data);
 
-    const dates = this.getStartEndDates(
+    const dates = DatesService.getDatesByStatus(
       anime.status,
       anime.startDate,
       anime.endDate,
@@ -55,7 +55,7 @@ export class AnimeService {
 
     if (!anime) throw new RpcException('Anime does not exist');
 
-    const dates = this.getStartEndDates(
+    const dates = DatesService.getDatesByStatus(
       anime.status,
       anime.startDate,
       anime.endDate,
@@ -70,18 +70,5 @@ export class AnimeService {
     if (!anime) throw new RpcException('Anime does not exist');
 
     return this.animeRepository.remove(anime);
-  }
-
-  private getStartEndDates(status: Status, startDate: Date, endDate: Date) {
-    const currentDate = new Date().toISOString();
-
-    switch (status) {
-      case Status.PAST:
-        return { startDate, endDate: endDate ?? currentDate };
-      case Status.PRESENT:
-        return { startDate: startDate ?? currentDate, endDate: null };
-      case Status.FUTURE:
-        return { startDate: null, endDate: null };
-    }
   }
 }
