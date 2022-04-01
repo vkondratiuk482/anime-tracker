@@ -1,8 +1,8 @@
 import { Status } from '@shared/enums/status.enum';
 
-import { PastDates } from './items/past-dates';
-import { PresentDates } from './items/present-dates';
-import { FutureDates } from './items/future-dates';
+import { PastDates } from './items/past-dates.item';
+import { PresentDates } from './items/present-dates.item';
+import { FutureDates } from './items/future-dates.item';
 
 export class DatesFactory {
   static getDatesInstance(status: Status) {

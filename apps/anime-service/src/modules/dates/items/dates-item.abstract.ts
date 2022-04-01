@@ -1,8 +1,12 @@
 export abstract class DatesItem {
-  public currentDate;
+  private currentDate;
 
   constructor() {
     this.currentDate = new Date().toISOString();
+  }
+
+  getCurrentDate() {
+    return this.currentDate;
   }
 
   abstract getDates(startDate: Date, endDate: Date): void;
