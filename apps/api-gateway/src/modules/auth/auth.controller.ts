@@ -37,14 +37,14 @@ export class AuthController implements OnModuleInit {
     @Body() data: SignUpRequest,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const tokens = await this.authService.signUp(data);
+    const { accessToken, refreshToken } = await this.authService.signUp(data);
 
-    res.cookie('refreshToken', tokens.refreshToken, {
+    res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
 
-    return tokens.accessToken;
+    return { accessToken };
   }
 
   @Post('signIn')
@@ -52,14 +52,14 @@ export class AuthController implements OnModuleInit {
     @Body() data: SignInRequest,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const tokens = await this.authService.signIn(data);
+    const { accessToken, refreshToken } = await this.authService.signIn(data);
 
-    res.cookie('refreshToken', tokens.refreshToken, {
+    res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
 
-    return tokens.accessToken;
+    return { accessToken };
   }
 
   @Post('update')

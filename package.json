@@ -91,6 +91,9 @@
     "testEnvironment": "node",
     "roots": [
       "<rootDir>/apps/"
-    ]
+    ],
+    "moduleNameMapper": {
+      "^@shared/(.*)$": "<rootDir>/shared/$1"
+    }
   }
 }
