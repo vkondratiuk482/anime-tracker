@@ -70,6 +70,6 @@ export class AuthController implements OnModuleInit {
 
     const accessToken = await this.authService.updateToken(refreshToken);
 
-    return accessToken;
+    return { accessToken };
   }
 }

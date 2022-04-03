@@ -84,7 +84,7 @@ export class AuthService {
       secret: this.configService.get('JWT_REFRESH_SECRET'),
     });
 
-    return payload;
+    return payload.id;
   }
 
   private generateTokens(id: string): TokensResponse {

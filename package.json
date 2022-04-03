@@ -36,6 +36,8 @@
     "@nestjs/swagger": "^5.2.1",
     "@nestjs/typeorm": "^8.0.3",
     "@types/bcryptjs": "^2.4.2",
+    "@types/cookie-parser": "^1.4.2",
+    "@types/set-cookie-parser": "^2.4.2",
     "axios": "^0.26.1",
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.5.1",
@@ -47,6 +49,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
+    "set-cookie-parser": "^2.4.8",
     "swagger-ui-express": "^4.3.0",
     "typeorm": "^0.2.34"
   },
