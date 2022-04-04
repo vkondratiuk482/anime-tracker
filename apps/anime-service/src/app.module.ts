@@ -22,6 +22,7 @@ import { AnimeModule } from './modules/anime/anime.module';
         database: configService.get('DB_NAME'),
         autoLoadEntities: true,
         synchronize: true,
+        keepConnectionAlive: true,
       }),
       inject: [ConfigService],
     }),

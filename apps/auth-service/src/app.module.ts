@@ -23,6 +23,7 @@ import { UserModule } from './modules/user/user.module';
         database: configService.get('DB_NAME'),
         autoLoadEntities: true,
         synchronize: true,
+        keepConnectionAlive: true,
       }),
       inject: [ConfigService],
     }),
