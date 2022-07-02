@@ -1,0 +1,47 @@
+name: Deploy in master
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x, 14.x, 16.x, 18.x]
+
+    steps:
+      - name: Checkout nodejs
+        uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Checkout cache
+        uses: actions/cache@v3.0.2
+
+      - name: Start installation process
+        run: npm i
+      
+      - name: Build project
+        run: npm run build
+
+      - name: Check format
+        run: npm run format
+
+      - name: Check linter
+        run: npm run lint
+
+      - name: Check Unit tests
+        run: npm run test
+
+      - name: Check E2E tests
+        run: npm run test:e2e
