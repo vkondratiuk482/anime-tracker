@@ -1,5 +1,19 @@
 version: '3.8'
+
 services:
+  auth_balancer:
+    image: auth-balancer
+    container_name: auth-service-balancer
+    build:
+      context: ./nginx
+      dockerfile: dockerfile
+    environment:
+      - NGINX_PORT=80
+    ports:
+      - 80:80
+    networks:
+      - auth-network
+
   postgres:
     image: postgres:10.3
     restart: always
@@ -8,3 +22,14 @@ services:
       POSTGRES_PASSWORD: pass123
     ports:
       - '5432:5432'
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    networks:
+      - auth-network
+
+volumes:
+  pg_data:
+
+networks:
+  auth-nework:
+    driver: bridge
