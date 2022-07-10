@@ -1,4 +1,5 @@
 version: "3"
+
 services:
   db:
     image:  postgres
@@ -10,6 +11,12 @@ services:
       POSTGRES_PASSWORD: pass123
     volumes:
       - pg_data:/var/lib/postgresql/data
+    networks:
+      - anime-network
 
 volumes:
   pg_data:
+
+networks:
+  anime-network:
+    driver: bridge
