@@ -1,0 +1,15 @@
+FROM node:16.14.0
+
+WORKDIR /auth-service
+
+COPY package*.json .
+
+RUN npm install
+
+RUN groupadd -r vlad && useradd -g vlad vlad
+
+RUN chown -R vlad:vlad /auth-service
+
+USER vlad
+
+RUN ["npm", "run", "start"]

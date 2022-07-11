@@ -1,0 +1,5 @@
+FROM nginx:1.23.0
+
+RUN mkdir /etc/nginx/anime-service
+
+COPY ./nginx.conf /etc/nginx/anime-service/
