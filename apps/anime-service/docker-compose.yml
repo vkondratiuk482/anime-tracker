@@ -1,6 +1,21 @@
 version: "3"
 
 services:
+  anime_service:
+    image: anime-service-image
+    container_name: anime-service-container
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: dockerfile
+    # env_file: .env.example
+    volumes:
+      - ./src
+    depends_on:
+      - db
+    networks:
+      - anime-network
+
   anime_balancer:
     image: anime-balancer
     container_name: anime-service-balancer
@@ -11,6 +26,10 @@ services:
       - NGINX_PORT=80
     ports:
       - 80:80
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - anime_service
     networks:
       - anime-network
 

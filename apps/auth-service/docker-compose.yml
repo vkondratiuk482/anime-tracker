@@ -1,6 +1,10 @@
 version: '3.8'
 
 services:
+  auth_service:
+    image: auth-service
+    
+
   auth_balancer:
     image: auth-balancer
     container_name: auth-service-balancer
@@ -11,6 +15,10 @@ services:
       - NGINX_PORT=80
     ports:
       - 80:80
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - auth_service
     networks:
       - auth-network
 
